@@ -27,7 +27,7 @@ export class CodeAnalysisResultPublisher {
     public uploadArtifacts(prefix: string):number {
         // If there are no results to upload, return
         if (this.analysisResults.length === 0) {
-            tl.debug("Skipping artifact upload: No analysis results");
+            tl.debug('[CA] Skipping artifact upload: No analysis results');
             return;
         }
 
@@ -37,7 +37,7 @@ export class CodeAnalysisResultPublisher {
                 return analysisResult.resultFiles != undefined && analysisResult.resultFiles != null && analysisResult.resultFiles.length > 0;
         });
         if (analysisResultsWithFiles.length === 0) {
-            tl.debug("Skipping artifact upload: No files to upload");
+            tl.debug('[CA] Skipping artifact upload: No files to upload');
             return;
         }
 
@@ -46,7 +46,7 @@ export class CodeAnalysisResultPublisher {
         let artifactBaseDir = path.join(this.stagingDir, 'CA');
         FileSystemInteractions.createDirectory(artifactBaseDir);
 
-        for (var analysisResult of this.analysisResults) {
+        for (var analysisResult of analysisResultsWithFiles) {
 
             // Group artifacts in folders representing the module name
             let destinationDir = path.join(artifactBaseDir, analysisResult.moduleName);
